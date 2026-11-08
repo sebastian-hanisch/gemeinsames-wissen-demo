@@ -1,7 +1,6 @@
 # Gemeinsames Wissen: Schmutzige Kinder und Zwei Generäle – Streamlit-Demo
 
-<!-- TODO nach dem Deploy: direkt hierher den Live-Link setzen (Leerzeile davor und danach):
-**[→ Demo live ausprobieren](https://sebastianhanisch-gemeinsames-wissen-demo.streamlit.app/)** -->
+**[→ Demo live ausprobieren](https://sebastianhanisch-gemeinsames-wissen-demo.streamlit.app/)**
 
 Stück 6 der Linie **Teamrätsel** (Arbeitstitel) in der „Konzepte“-Reihe für die Website „Sebastian Hanisch – Operations Research und Machine Learning“. Zwei klassische Rätsel, ein Gedanke: **„alle wissen es“ ist nicht „es ist gemeinsames Wissen“.** Teil A rechnet die **Schmutzigen Kinder** als Kripke-Modell (Welten, Sichten, öffentliche Ansage, Antwortrunden), Teil B die **Zwei Generäle** im Kettenmodell (Sichten, Wissensebenen, Aufzählung aller Entscheidungsregeln, Verlust und Boten). Es gibt keine Auszahlungen und keinen Eigennutz: gefragt ist, was jemand aus dem schließen kann, was er sieht und hört.
 
