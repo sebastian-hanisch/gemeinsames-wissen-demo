@@ -124,22 +124,22 @@ def verdict_e5(rows: list[dict], eps_pct: int, c: int, m: int) -> tuple[str, str
                     f"{de(last['Verhältnis'], 6)}, bleibt aber bei jeder gerechneten Botenzahl größer als 0. {tail}")
 
 
-# ---------------------------------------------------------------- E6 Weltenzahl nach r Runden
+# ---------------------------------------------------------------- E6 Weltenzahl nach s Runden
 def worlds_rows(n: int) -> list[dict]:
-    """Alle n Kinder schmutzig, Ansage „mindestens eines“: Zahl der möglichen Welten nach r stillen Runden (r = 0 bis n − 1; in Runde n wissen es alle)
+    """Alle n Kinder schmutzig, Ansage „mindestens eines“: Zahl der möglichen Welten nach s stillen Runden (s = 0 bis n − 1; in Runde n wissen es alle)
     und die Summe der Binomialkoeffizienten dazu."""
     p = A.play(n, A.actual_world(n), 1)
     rows = []
-    for r in range(0, len(p.rounds)):
-        size = len(A.worlds_after(p, r))
-        rows.append({"Runden vorbei": r, "mögliche Welten (Kripke)": size, "Σ_{j>r} C(n, j)": sum(comb(n, j) for j in range(r + 1, n + 1))})
+    for s in range(0, len(p.rounds)):
+        size = len(A.worlds_after(p, s))
+        rows.append({"Runden vorbei": s, "mögliche Welten (Kripke)": size, "Σ_{q>s} C(n, q)": sum(comb(n, q) for q in range(s + 1, n + 1))})
     return rows
 
 
 def verdict_e6(rows: list[dict], n: int) -> tuple[str, str]:
-    same = all(r["mögliche Welten (Kripke)"] == r["Σ_{j>r} C(n, j)"] for r in rows)
+    same = all(r["mögliche Welten (Kripke)"] == r["Σ_{q>s} C(n, q)"] for r in rows)
     return "success", (f"Bei {n} Kindern schrumpft die Weltenmenge von {thousands(rows[0]['mögliche Welten (Kripke)'])} nach der Ansage auf {rows[-1]['mögliche Welten (Kripke)']} nach "
-                       f"{rows[-1]['Runden vorbei']} stillen Runden; die Zählung stimmt in {sum(r['mögliche Welten (Kripke)'] == r['Σ_{j>r} C(n, j)'] for r in rows)} von {len(rows)} Zeilen mit der Summe der Binomialkoeffizienten überein"
+                       f"{rows[-1]['Runden vorbei']} stillen Runden; die Zählung stimmt in {sum(r['mögliche Welten (Kripke)'] == r['Σ_{q>s} C(n, q)'] for r in rows)} von {len(rows)} Zeilen mit der Summe der Binomialkoeffizienten überein"
                        f"{'' if same else ' (nicht überall)'}.")
 
 

@@ -34,7 +34,7 @@ PRESETS = {
 }
 PRESET_HELP = {
     "Drei schmutzige Kinder (Standard)": "Vier Kinder, drei davon schmutzig, der Vater sagt „mindestens eines“: die drei melden sich in Runde 3, das saubere in Runde 4. Generäle: fünf Nachrichten, 20 % Verlust, Schwelle 3.",
-    "Ohne Ansage": "Dieselben Kinder, aber der Vater schweigt: obwohl jedes Kind mindestens zwei schmutzige sieht, weiß nie eines etwas. Die Weltenmenge ändert sich nicht.",
+    "Ohne Ansage": "Dieselben Kinder, aber der Vater schweigt: obwohl jedes Kind mindestens zwei schmutzige sieht, weiß kein Kind etwas (hier mit vier Kindern gerechnet; gezählt ist das für bis zu 6 Kinder). Die Weltenmenge ändert sich nicht.",
     "Ansage „mindestens zwei“": "Vier schmutzige Kinder, der Vater sagt „mindestens zwei“: die Ansage ist stärker und spart Runden (k − a + 1 = 3 statt 4).",
     "Ein schmutziges Kind": "Ein schmutziges Kind sieht lauter saubere und schließt aus der Ansage sofort auf sich: Runde 1.",
     "Zwei Generäle: strenge Schwelle": "Acht Nachrichten, Schwelle 6: angegriffen wird selten, dafür gibt es seltener Uneinigkeit. Das Verhältnis beider bleibt gleich.",

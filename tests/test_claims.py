@@ -2,6 +2,7 @@
 
 from fractions import Fraction
 from math import comb
+from pathlib import Path
 
 import pytest
 
@@ -76,6 +77,7 @@ def test_rule_counts_m_1_to_10():
     for m in range(1, 11):
         r = G.enumerate_rules(m)
         assert r.valid == 2 ** (m + 1) and r.agree == 1 and r.agree_and_attack == 0
+        assert r.views == m + 3 and sum(G.NO in v for who in "AB" for v in G.views(m, who)) == 2   # README: m + 3 Sichten, zwei davon enthalten NO
         total += r.valid
     assert G.enumerate_rules(1).valid == 4 and G.enumerate_rules(10).valid == 2048
     assert total == 4092
@@ -130,3 +132,21 @@ def test_hook_everyone_sees_a_dirty_child_but_it_is_not_common_knowledge():
             assert min(A.popcount(w & ~(1 << i)) for i in range(n)) >= 1
             v = mud_view(Settings(k=k, s=s, a=1))
             assert v.level_before == k - 1 >= 1 and not v.common_before and v.common_after
+
+
+def test_readme_regler_line_names_the_slider_bounds():
+    """Die Zeile „Regler“ der README nennt Bereiche und Voreinstellungen der Regler aus gmw_constants.py."""
+    root = Path(__file__).resolve().parent.parent
+    line = next(x for x in (root / "README.md").read_text(encoding="utf-8").splitlines() if x.startswith("* **Regler**"))
+
+    def de(x):
+        return f"{x:,}".replace(",", ".")
+    expected = [
+        f"schmutzige Kinder k {C.K_MIN} bis {C.K_MAX} ({C.DEFAULT_K})", f"saubere Kinder {C.S_MIN} bis {C.S_MAX} ({C.DEFAULT_S})",
+        f"mit a {C.A_MIN} bis {C.A_MAX} ({C.DEFAULT_A})", f"nach Runde {C.STAGE_MIN} bis {C.STAGE_MAX} ({C.DEFAULT_STAGE})",
+        f"Nachrichten m {C.M_MIN} bis {C.M_MAX} ({C.DEFAULT_M})", f"Schwelle c {C.C_MIN} bis {C.C_MAX} ({C.DEFAULT_C})",
+        f"{C.EPS_MIN} bis {C.EPS_MAX} % in Schritten von 5 ({C.DEFAULT_EPS} %)", f"b {C.B_MIN} bis {C.B_MAX} ({C.DEFAULT_B})",
+        f"Zufalls-Seed 0 bis {de(C.SEED_MAX)} ({C.DEFAULT_SEED})", f"höchstens {C.N_MAX}",
+    ]
+    for part in expected:
+        assert part in line, part

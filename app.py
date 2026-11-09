@@ -74,8 +74,8 @@ with st.container(key="kopf"):
 st.markdown(
     """
 Stück 6 der Linie **Teamrätsel** (Arbeitstitel). Zwei Rätsel, ein Gedanke: **„Alle wissen es“ ist nicht „es ist gemeinsames Wissen“.** Bei den **Schmutzigen Kindern** sieht jedes Kind schon vor der Ansage des Vaters,
-dass mindestens ein Kind schmutzig ist (ab zwei schmutzigen Kindern), und trotzdem melden sie sich ohne die Ansage nie und mit ihr nach genau **k Runden**. Bei den **Zwei Generälen** schafft im Kettenmodell keine Folge von
-Bestätigungen, was eine einzige öffentliche Ansage schafft. Gerechnet wird mit **Welten und Sichten** (Kripke-Modell) und mit **Aufzählung** aller Entscheidungsregeln; Zahlen sind eigene Rechnung.
+dass mindestens ein Kind schmutzig ist (ab zwei schmutzigen Kindern), und trotzdem melden sich die Kinder ohne die Ansage nie (gezählt bis 6 Kinder; ohne Ansage bleiben alle Welten möglich) und mit der Ansage „mindestens eines“ nach genau **k Runden** (allgemein bei „mindestens a“ nach k − a + 1 Runden). Bei den **Zwei Generälen** schafft im Kettenmodell keine Folge von
+Bestätigungen, was eine einzige öffentliche Ansage schafft. Gerechnet wird mit **Welten und Sichten** (Kripke-Modell) und mit **Aufzählung** aller Entscheidungsregeln; Zahlen sind eigene Rechnung. Wer die Rätsel zuerst ohne Formeln verstehen will, öffnet „💬 In einfachen Worten“.
 
 Abgrenzung: `globale-spiele-demo` rechnet im E-Mail-Spiel (Experiment E6 dort) dieselbe Frage als Spiel mit Auszahlungen und Gleichgewicht; hier gibt es keine
 Auszahlungen, dafür die Wissensstruktur selbst und alle Regeln. `endliche-horizonte-demo` nennt gemeinsames Wissen nur als Grenze der Rückwärtsinduktion. Die Kinder und die Generäle sind **Modelle**, keine Aussagen über Menschen.
@@ -83,6 +83,19 @@ Auszahlungen, dafür die Wissensstruktur selbst und alle Regeln. `endliche-horiz
 Weiter unten: **🔬 Experimente E1 bis E6**, **🚧 Wo die Annahmen enden**, die Quellen und der Expander **📐 Mathematische Formulierung**.
 """
 )
+
+# erklaerseite:einfach:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/schmutzige-kinder-erklaert.json, nicht von Hand ändern)
+with st.expander("💬 In einfachen Worten"):
+    st.markdown(
+        """
+Zwei Rätsel zeigen: „Alle wissen es“ ist nicht dasselbe wie „es ist gemeinsames Wissen“. Bei den **Schmutzigen Kindern** sieht jedes Kind schon vor der Ansage des Vaters, dass mindestens ein Kind schmutzig ist, sobald mehrere Kinder schmutzig sind. Trotzdem melden sich die Kinder erst nach der Ansage, und zwar in einer Runde, die von der Zahl der schmutzigen Kinder abhängt. Denn erst die laute Ansage macht aus „jeder weiß es“ die ganze Kette „jeder weiß, dass jeder weiß, und so weiter“.
+
+Bei den **Zwei Generälen** können Boten verloren gehen. Die Demo zählt alle Verhaltensregeln durch, die ohne Befehl nicht angreifen: Nur „nie angreifen“ ist in jeder Lage einig. Mehr Boten senken die Uneinigkeit im Verhältnis zum gemeinsamen Angriff, aber nicht auf null. Alles gilt nur für die gewählten Annahmen.
+
+[Ausführlich und verständlich erklärt, mit Fachteil](https://sebastianhanisch.net/schmutzige-kinder-erklaert.html)
+        """
+    )
+# erklaerseite:einfach:end
 
 with st.expander("So funktioniert gemeinsames Wissen", expanded=True):
     st.markdown(
@@ -162,7 +175,7 @@ if mv.valid and mv.play is not None:
 else:
     st.warning(V.verdict_mud(mv)[1])
 
-st.markdown("### ❓ Kernfrage A: Warum reden die Kinder erst nach k Runden?")
+st.markdown("### ❓ Kernfrage A: Warum reden die Kinder erst in Runde k − a + 1?")
 show(V.verdict_mud(mv))
 verdicts.append(V.verdict_mud(mv))
 show(V.verdict_levels(mv))
@@ -225,8 +238,8 @@ if run_button("▶️ E1 rechnen", "e1_button", (settings.n,), "Rechnet das Krip
     show(X.verdict_e1(rows))
     verdicts.append(X.verdict_e1(rows))
 
-st.subheader("🔬 Experiment E2: Ohne Ansage schweigen alle ewig")
-st.caption(f"Erste Meldung der schmutzigen Kinder bei n = {settings.n}: mit Ansage und ohne.")
+st.subheader("🔬 Experiment E2: Ohne Ansage schweigen alle")
+st.caption(f"Erste Meldung der schmutzigen Kinder bei n = {settings.n}: mit Ansage und ohne. Ohne Ansage bleiben alle Welten möglich, daher meldet sich in dieser Rechnung kein Kind; getestet ist das für n bis 6.")
 if run_button("▶️ E2 rechnen", "e2_button", (settings.n,), "Spielt für alle k das Spiel mit und ohne Ansage."):
     rows = X.silence_rows(settings.n)
     table(rows)
@@ -259,7 +272,7 @@ if run_button("▶️ E5 rechnen", "e5_button", (settings.eps, settings.c, setti
     show(X.verdict_e5(rows, settings.eps, settings.c, settings.m))
     verdicts.append(X.verdict_e5(rows, settings.eps, settings.c, settings.m))
 
-st.subheader("🔬 Experiment E6: Weltenzahl nach r stillen Runden")
+st.subheader("🔬 Experiment E6: Weltenzahl nach s stillen Runden")
 st.caption(f"Alle n = {settings.n} Kinder schmutzig, Ansage „mindestens eines“: wie viele Welten bleiben nach r Runden ohne „ja“? Gegenprobe: Summe der Binomialkoeffizienten.")
 if run_button("▶️ E6 rechnen", "e6_button", (settings.n,), "Spielt das Spiel mit n schmutzigen Kindern und zählt die Welten je Runde."):
     rows = X.worlds_rows(settings.n)
@@ -299,6 +312,27 @@ st.markdown(ASSUMPTIONS_MARKDOWN)
 st.markdown("---")
 
 with st.expander("📐 Mathematische Formulierung"):
+    # erklaerseite:lesehilfe:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/schmutzige-kinder-erklaert.json, nicht von Hand ändern)
+    st.markdown(
+        r"""
+**Lesehilfe.** Teil A: Gegeben sind $n$ Kinder, davon $k$ schmutzig, die jeweils alle anderen sehen, und die öffentliche Ansage „mindestens $a$ schmutzig“. Gesucht ist, wie tief das Wissen vor der Ansage reicht und in welcher Runde $r$ sich die schmutzigen Kinder melden. Teil B: Gegeben ist eine Kette von höchstens $m$ Nachrichten, die mit Wahrscheinlichkeit $\varepsilon$ verloren gehen. Gesucht ist eine Regel, bei der beide Generäle zugleich angreifen. In der Tabelle bezeichnet jeder Buchstabe nur eines.
+
+| Symbol | Bedeutung |
+|---|---|
+| $w \in \{0, 1\}^n$, $\lvert w \rvert$ | Welt: Bitvektor über die $n$ Kinder (1 = schmutzig), $\lvert w \rvert$ ist die Zahl der schmutzigen Kinder |
+| $k$ | Zahl der schmutzigen Kinder in der wirklichen Welt |
+| $w \oplus e_i$ | die Welt $w$ mit gekipptem Bit $i$; Kind $i$ unterscheidet beide Welten nicht |
+| $a$, $W_a$ | Ansage „mindestens $a$“ und die Menge der Welten mit mindestens $a$ schmutzigen Kindern |
+| $K_i$, $E^j$, $C$ | Kind $i$ weiß; alle wissen, $j$-fach ineinandergesetzt; gemeinsames Wissen |
+| $r$ | Runde, in der sich die schmutzigen Kinder melden |
+| $s$, $q$, $\binom{n}{q}$ | Zahl stiller Runden; Laufzahl der Summe über die Zahl schmutziger Kinder; Zahl der Welten mit $q$ schmutzigen Kindern |
+| $m$, $c$, $t$ | höchste Zahl der Nachrichten, Schwelle der Angriffsregel und Weltnummer der Generäle (die ersten $t$ Nachrichten kamen an) |
+| $\varepsilon$, $b$ | Verlustwahrscheinlichkeit einer Nachricht (bei $b$ Boten je Nachricht $\varepsilon^b$) und Zahl der Boten |
+
+[Schritt für Schritt erklärt, mit Herleitung und Literatur](https://sebastianhanisch.net/schmutzige-kinder-erklaert.html#fachleute)
+        """
+    )
+    # erklaerseite:lesehilfe:end
     st.markdown(
         r"""
 **Schmutzige Kinder.** Eine Welt ist $w \in \{0,1\}^n$ ($w_i = 1$: Kind $i$ schmutzig), $|w|$ die Zahl der schmutzigen Kinder. Kind $i$ unterscheidet $w$ nicht von $w \oplus e_i$:
@@ -325,15 +359,15 @@ Gemeinsames Wissen $C\varphi$ in $w$ heißt: $\varphi$ gilt in der ganzen von $w
 
 $$ r = k - a + 1 $$
 
-und die sauberen Kinder in Runde $r + 1$ (Kripke-Modell gegen diese Formel geprüft; $a \ge 1$). Nach $r$ stillen Runden (alle $n$ Kinder schmutzig, $a = 1$) sind noch
+und die sauberen Kinder in Runde $r + 1$ (Kripke-Modell gegen diese Formel geprüft; $a \ge 1$). Nach $s$ stillen Runden (alle $n$ Kinder schmutzig, $a = 1$) sind noch
 
-$$ \sum_{j > r} \binom{n}{j} $$
+$$ \sum_{q > s} \binom{n}{q} $$
 
-Welten möglich.
+Welten möglich, wobei $s$ die Zahl der stillen Runden ist und $q$ die Laufzahl der Summe (Zahl schmutziger Kinder in einer Welt). So bezeichnet $k$ nur die Zahl der schmutzigen Kinder, $j$ nur die Tiefe von $E^j$ und $r$ nur die Runde der Meldung.
 
-**Zwei Generäle.** Welt $k \in \{0, \dots, m\}$: die ersten $k$ Nachrichten kamen an; Welt NO: kein Befehl. $A$ unterscheidet $2t$ und $2t+1$ nicht, $B$ unterscheidet $2t+1$ und $2t+2$ sowie NO und $0$ nicht. Bei Verlust $\varepsilon$ je Nachricht:
+**Zwei Generäle.** Welt $t \in \{0, \dots, m\}$: die ersten $t$ Nachrichten kamen an; Welt NO: kein Befehl. $A$ unterscheidet $t$ und $t+1$ für gerades $t$ nicht, $B$ für ungerades $t$; außerdem kann $B$ die Welten NO und $0$ nicht unterscheiden. Beide zusammen haben $m + 3$ Sichten. Bei Verlust $\varepsilon$ je Nachricht:
 
-$$ P(k) = (1-\varepsilon)^k \varepsilon \quad (k < m), \qquad P(m) = (1-\varepsilon)^m $$
+$$ P(t) = (1-\varepsilon)^t \varepsilon \quad (t < m), \qquad P(m) = (1-\varepsilon)^m $$
 
 Die Schwellenregel $c$ ($1 \le c \le m$) liefert
 
@@ -351,5 +385,5 @@ st.markdown("---")
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
     "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
-    "Mehr zu den Demos: [Interaktive Demos](https://sebastianhanisch.net/demos.html)."
+    "Mehr zur Reihe: [Teamrätsel: Strategie ohne Verständigung](https://sebastianhanisch.net/konzepte-teamraetsel.html)."
 )
